@@ -20,6 +20,7 @@ apply_restrictions() {
         if [ -d "$path" ]; then
             chmod 111 "$path"
             # Make all files executable
+            find "$path" -type f -exec chown $USERNAME:$USERNAME {} \;
             find "$path" -type f -exec chmod 111 {} \;
         else
             chmod "$permissions" "$path"
