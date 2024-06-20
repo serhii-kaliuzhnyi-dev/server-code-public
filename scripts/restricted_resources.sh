@@ -22,8 +22,13 @@ apply_restrictions() {
             chmod "$permissions" "$path"
         else
             echo "Changing owner and permissions for $path"
-            chown -R root:root "$path"
-            chmod -R "$permissions" "$path"
+            if [ -d "$path" ]; then
+                chown -R root:root "$path"
+                chmod -R "$permissions" "$path"
+            else
+                chown root:root "$path"
+                chmod "$permissions" "$path"
+            fi
         fi
     else
         echo "Warning: Path '$path' does not exist."
