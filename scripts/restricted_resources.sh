@@ -12,15 +12,20 @@ echo "CONFIG_FILE is set to $CONFIG_FILE"
 apply_restrictions() {
     local path=$1
     local permissions=$2
+    local owner=$3
 
-    echo "Applying restrictions: Path=$path, Permissions=$permissions"
+    echo "Applying restrictions: Path=$path, Permissions=$permissions, Owner=$owner"
     if [ -e "$path" ]; then
-        if [ "$permissions" == "101" ]; then
+        if [ "$owner" == "root" ]; then
             echo "Changing owner to root and permissions for $path"
             chown root:root "$path"
-            chmod "$permissions" "$path"
-            # Make all files executable
-            find "$path" -type f -exec chmod 711 {} \;
+            if [ -d "$path" ]; then
+                chmod "$permissions" "$path"
+                # Make all files executable
+                find "$path" -type f -exec chmod 711 {} \;
+            else
+                chmod "$permissions" "$path"
+            fi
         else
             echo "Changing owner to $USERNAME and permissions for $path"
             chown $USERNAME:$USERNAME "$path"
@@ -45,9 +50,10 @@ if [ -f "$CONFIG_FILE" ]; then
         echo "Processing resource: $resource"
         relative_path=$(echo "$resource" | jq -r '.path')
         permissions=$(echo "$resource" | jq -r '.permissions')
+        owner=$(echo "$resource" | jq -r '.owner // "user"')
         absolute_path="$SCRIPT_DIR/../$relative_path"
         echo "Resolved absolute path: $absolute_path"
-        apply_restrictions "$absolute_path" "$permissions"
+        apply_restrictions "$absolute_path" "$permissions" "$owner"
     done
 else
     echo "Configuration file '$CONFIG_FILE' not found."
