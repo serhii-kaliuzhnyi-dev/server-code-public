@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration file path
-CONFIG_FILE="scripts/restricted_paths.json"
+CONFIG_FILE="./restricted_paths.json"
 
 # Function to apply restrictions
 apply_restrictions() {
