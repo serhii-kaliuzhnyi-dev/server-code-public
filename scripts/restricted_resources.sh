@@ -23,8 +23,8 @@ apply_restrictions() {
         else
             echo "Changing owner and permissions for $path"
             if [ -d "$path" ]; then
-                chown $USERNAME:$USERNAME "$path"
-                chmod 111 "$path"
+                chown root:root "$path"
+                chmod 100 "$path"
             else
                 chown root:root "$path"
                 chmod "$permissions" "$path"

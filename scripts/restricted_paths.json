@@ -4,11 +4,6 @@
       "path": "server",
       "permissions": "111",
       "isAllowed": false
-    },
-    {
-      "path": "server/run.sh",
-      "permissions": "500",
-      "isAllowed": true
     }
   ]
 }
