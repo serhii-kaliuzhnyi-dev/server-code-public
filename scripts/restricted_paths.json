@@ -2,11 +2,12 @@
   "restricted_resources": [
     {
       "path": "server",
-      "permissions": "700"
+      "permissions": "111",
+      "isAllowed": false
     },
     {
       "path": "server/run.sh",
-      "permissions": "700",
+      "permissions": "500",
       "isAllowed": true
     }
   ]
