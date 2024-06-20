@@ -6,7 +6,8 @@
     },
     {
       "path": "entrypoint.sh",
-      "permissions": "700"
+      "permissions": "700",
+      "isAllowed": true
     }
   ]
 }

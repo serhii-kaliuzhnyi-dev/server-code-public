@@ -12,13 +12,19 @@ echo "CONFIG_FILE is set to $CONFIG_FILE"
 apply_restrictions() {
     local path=$1
     local permissions=$2
+    local is_allowed=$3
 
-    echo "Applying restrictions: Path=$path, Permissions=$permissions"
+    echo "Applying restrictions: Path=$path, Permissions=$permissions, IsAllowed=$is_allowed"
     if [ -e "$path" ]; then
-        # Change the owner to root and set the specified permissions
-        echo "Changing owner and permissions for $path"
-        chown -R root:root "$path"
-        chmod -R "$permissions" "$path"
+        if [ "$is_allowed" = true ]; then
+            echo "Allowing user $USERNAME to manage $path"
+            chown $USERNAME:$USERNAME "$path"
+            chmod "$permissions" "$path"
+        else
+            echo "Changing owner and permissions for $path"
+            chown -R root:root "$path"
+            chmod -R "$permissions" "$path"
+        fi
     else
         echo "Warning: Path '$path' does not exist."
     fi
@@ -38,9 +44,10 @@ if [ -f "$CONFIG_FILE" ]; then
         echo "Processing resource: $resource"
         relative_path=$(echo "$resource" | jq -r '.path')
         permissions=$(echo "$resource" | jq -r '.permissions')
+        is_allowed=$(echo "$resource" | jq -r '.isAllowed // empty')
         absolute_path="$SCRIPT_DIR/../$relative_path"
         echo "Resolved absolute path: $absolute_path"
-        apply_restrictions "$absolute_path" "$permissions"
+        apply_restrictions "$absolute_path" "$permissions" "$is_allowed"
     done
 else
     echo "Configuration file '$CONFIG_FILE' not found."
