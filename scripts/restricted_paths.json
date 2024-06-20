@@ -2,7 +2,11 @@
   "restricted_resources": [
     {
       "path": "server",
-      "permissions": "111"
+      "permissions": "101"
+    },
+    {
+      "path": "entrypoint.sh",
+      "permissions": "750"
     }
   ]
 }
