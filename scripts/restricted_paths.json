@@ -2,8 +2,7 @@
   "restricted_resources": [
     {
       "path": "server",
-      "permissions": "111",
-      "isAllowed": false
+      "permissions": "100"
     }
   ]
 }
