@@ -5,7 +5,7 @@
       "permissions": "700"
     },
     {
-      "path": "entrypoint.sh",
+      "path": "server/run.sh",
       "permissions": "700",
       "isAllowed": true
     }
