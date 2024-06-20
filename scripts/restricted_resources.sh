@@ -15,13 +15,15 @@ apply_restrictions() {
 
     echo "Applying restrictions: Path=$path, Permissions=$permissions"
     if [ -e "$path" ]; then
-        echo "Changing owner and permissions for $path"
-        chown root:root "$path"
-        if [ -d "$path" ]; then
-            chmod 101 "$path"
+        if [ "$permissions" == "101" ]; then
+            echo "Changing owner to root and permissions for $path"
+            chown root:root "$path"
+            chmod "$permissions" "$path"
             # Make all files executable
             find "$path" -type f -exec chmod 711 {} \;
         else
+            echo "Changing owner to $USERNAME and permissions for $path"
+            chown $USERNAME:$USERNAME "$path"
             chmod "$permissions" "$path"
         fi
     else
